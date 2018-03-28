@@ -2,6 +2,7 @@ package com.mcs.be.course.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Table
@@ -26,6 +27,9 @@ public class Article implements Serializable{
 
     @Column
     private Boolean approve;
+    
+    @Column
+    private BigDecimal price;
 
     public Long getId() {
         return id;
@@ -74,4 +78,13 @@ public class Article implements Serializable{
     public void setApprove(Boolean approve) {
         this.approve = approve;
     }
+
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+    
 }
