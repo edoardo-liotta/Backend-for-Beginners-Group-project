@@ -14,4 +14,6 @@ public interface ArticleFacade {
     ArticleDto saveOrUpdate(ArticleDto articleDto) throws ElementNotFound;
 
     ArticleDto addLikeToArticle(Long id) throws ElementNotFound;
+
+	List<ArticleDto> findArticlesByTitle(String title) throws ElementNotFound;
 }

@@ -4,6 +4,8 @@ import com.mcs.be.course.dao.ArticleDao;
 import com.mcs.be.course.exception.ElementNotFound;
 import com.mcs.be.course.model.Article;
 import com.mcs.be.course.service.ArticleService;
+
+import org.assertj.core.internal.cglib.core.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -90,4 +92,13 @@ public class ArticleServiceImpl implements ArticleService {
 
         return entity;
     }
+
+	@Override
+	public List<Article> findArticlesByTitle(String title) throws ElementNotFound {
+		List<Article> findByTitleLike = articleDao.findByTitleContaining(title);
+		if (findByTitleLike.isEmpty()) {
+			throw new ElementNotFound("Couldn't find any products by title like " + title);
+		}
+		return findByTitleLike;
+	}
 }
