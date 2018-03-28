@@ -1,5 +1,6 @@
 package com.mcs.be.course.facade.impl;
 
+import org.h2.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,9 @@ public class CustomerFacadeImpl implements CustomerFacade {
 	@Override
 	public CustomerDto login(CustomerDto customerDto) throws ElementNotFound {
 		Customer customerById = customerService.getCustomerById(customerDto.getId());
+		if (!StringUtils.equals(customerDto.getPassword(), customerById.getPassword())) {
+			throw new IllegalArgumentException("Wrong password");
+		}
 		return mapperFacade.map(customerById, CustomerDto.class);
 	}
 

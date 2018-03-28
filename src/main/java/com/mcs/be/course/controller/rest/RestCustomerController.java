@@ -18,7 +18,7 @@ public class RestCustomerController {
 	private CustomerFacade customerFacade;
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public CustomerDto login(@RequestBody CustomerDto customerDto) throws ElementNotFound {
+	public CustomerDto doLogin(@RequestBody CustomerDto customerDto) throws ElementNotFound {
 		return customerFacade.login(customerDto);
 	}
 	
