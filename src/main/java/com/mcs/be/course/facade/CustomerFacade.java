@@ -7,5 +7,7 @@ public interface CustomerFacade {
 
 	CustomerDto login(CustomerDto customerDto) throws ElementNotFound;
 
+	void logout();
+	
 	CustomerDto register(CustomerDto customerDto);
 }

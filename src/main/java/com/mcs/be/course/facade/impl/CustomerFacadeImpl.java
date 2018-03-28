@@ -10,6 +10,7 @@ import com.mcs.be.course.exception.ElementNotFound;
 import com.mcs.be.course.facade.CustomerFacade;
 import com.mcs.be.course.model.Customer;
 import com.mcs.be.course.service.CustomerService;
+import com.mcs.be.course.service.SessionService;
 
 import ma.glasnost.orika.MapperFacade;
 
@@ -20,15 +21,31 @@ public class CustomerFacadeImpl implements CustomerFacade {
 	private CustomerService customerService;
 	
 	@Autowired
+	private SessionService sessionService;
+	
+	@Autowired
 	private MapperFacade mapperFacade;
 	
 	@Override
 	public CustomerDto login(CustomerDto customerDto) throws ElementNotFound {
+		if (sessionService.getCurrentSession().getCustomerDto() != null) {
+			throw new IllegalArgumentException("Logout first");
+		}
+		
 		Customer customerById = customerService.getCustomerById(customerDto.getId());
 		if (!StringUtils.equals(customerDto.getPassword(), customerById.getPassword())) {
 			throw new IllegalArgumentException("Wrong password");
 		}
-		return mapperFacade.map(customerById, CustomerDto.class);
+		
+		CustomerDto loggedInCustomer = mapperFacade.map(customerById, CustomerDto.class);
+		sessionService.getCurrentSession().setCustomerDto(loggedInCustomer);
+		
+		return loggedInCustomer;
+	}
+	
+	@Override
+	public void logout() {
+		sessionService.resetSession();
 	}
 
 	@Override

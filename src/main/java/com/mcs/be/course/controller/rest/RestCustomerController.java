@@ -24,6 +24,11 @@ public class RestCustomerController {
 		return customerFacade.login(customerDto);
 	}
 	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public void doLogout() {
+		customerFacade.logout();
+	}
+	
 	@RequestMapping(value = "/signup", method = RequestMethod.POST)
 	public ResponseEntity<CustomerDto> doSignup(@RequestBody CustomerDto customerDto) {
 		return new ResponseEntity<>(customerFacade.register(customerDto), HttpStatus.CREATED);
