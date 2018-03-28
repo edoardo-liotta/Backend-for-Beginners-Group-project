@@ -28,7 +28,7 @@ public class CustomerFacadeImpl implements CustomerFacade {
 	
 	@Override
 	public CustomerDto login(CustomerDto customerDto) throws ElementNotFound {
-		if (sessionService.getCurrentSession().getCustomerDto() != null) {
+		if (customerService.getCurrentCustomer() != null) {
 			throw new IllegalArgumentException("Logout first");
 		}
 		
@@ -37,8 +37,8 @@ public class CustomerFacadeImpl implements CustomerFacade {
 			throw new IllegalArgumentException("Wrong password");
 		}
 		
+		customerService.setCurrentCustomer(customerById);
 		CustomerDto loggedInCustomer = mapperFacade.map(customerById, CustomerDto.class);
-		sessionService.getCurrentSession().setCustomerDto(loggedInCustomer);
 		
 		return loggedInCustomer;
 	}

@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -14,7 +14,7 @@ import javax.persistence.Table;
 public class Customer implements Serializable {
 
 	@Id
-	@Column(nullable = false)
+	@Column(name="CUSTOMER_ID", nullable = false)
 	private String id;
 
 	@Column(nullable = false)
@@ -26,8 +26,9 @@ public class Customer implements Serializable {
 	@Column(nullable = false)
 	private String password;
 
-	@Column
-	private Long cartId;
+	@OneToOne
+	@JoinColumn(name="CART_ID")
+	private Cart cart;
 
 	public String getId() {
 		return id;
@@ -61,12 +62,12 @@ public class Customer implements Serializable {
 		this.password = password;
 	}
 
-	public Long getCartId() {
-		return cartId;
+	public Cart getCart() {
+		return cart;
 	}
 
-	public void setCartId(Long cartId) {
-		this.cartId = cartId;
+	public void setCart(Cart cart) {
+		this.cart = cart;
 	}
 
 }

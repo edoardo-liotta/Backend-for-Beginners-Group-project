@@ -1,9 +1,7 @@
 package com.mcs.be.course.service;
 
-import com.mcs.be.course.dto.SessionDto;
-
 public interface SessionService {
-	SessionDto getCurrentSession();
+	Session getCurrentSession();
 
 	void resetSession();
 }

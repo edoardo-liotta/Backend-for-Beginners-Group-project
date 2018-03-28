@@ -1,4 +1,4 @@
-package com.mcs.be.course.dto;
+package com.mcs.be.course.service;
 
 import java.io.Serializable;
 
@@ -7,19 +7,25 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.mcs.be.course.model.Customer;
+
 @Component
 @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 
-public class SessionDto implements Serializable {
+public class Session implements Serializable {
 	
-	private CustomerDto customerDto;
+	private String customerId;
 
-	public CustomerDto getCustomerDto() {
-		return customerDto;
+	public String getCustomer() {
+		return customerId;
 	}
 
-	public void setCustomerDto(CustomerDto customerDto) {
-		this.customerDto = customerDto;
+	public void setCustomer(String customer) {
+		this.customerId = customer;
+	}
+
+	public void reset() {
+		this.customerId = null;
 	}
 	
 	

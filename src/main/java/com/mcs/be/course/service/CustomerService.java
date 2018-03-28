@@ -9,4 +9,8 @@ public interface CustomerService {
 	Customer findCustomerById(String id);
 
 	Customer save(Customer customer);
+	
+	Customer getCurrentCustomer();
+	
+	void setCurrentCustomer(Customer customer);
 }

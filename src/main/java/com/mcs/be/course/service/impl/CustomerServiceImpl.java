@@ -9,12 +9,16 @@ import com.mcs.be.course.dao.CustomerDao;
 import com.mcs.be.course.exception.ElementNotFound;
 import com.mcs.be.course.model.Customer;
 import com.mcs.be.course.service.CustomerService;
+import com.mcs.be.course.service.SessionService;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerDao customerDao;
+	
+	@Autowired
+	private SessionService sessionService;
 
 	@Override
 	public Customer getCustomerById(String id) throws ElementNotFound {
@@ -38,5 +42,16 @@ public class CustomerServiceImpl implements CustomerService {
 		Objects.requireNonNull(customer.getPassword(), "the password cannot be null");
 
 		return customerDao.save(customer);
+	}
+
+	@Override
+	public Customer getCurrentCustomer() {
+		String id = sessionService.getCurrentSession().getCustomer();
+		return id != null ? customerDao.findOne(id) : null;
+	}
+
+	@Override
+	public void setCurrentCustomer(Customer customer) {
+		sessionService.getCurrentSession().setCustomer(customer.getId());
 	}
 }
