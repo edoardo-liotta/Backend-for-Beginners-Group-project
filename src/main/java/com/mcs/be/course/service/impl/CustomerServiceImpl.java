@@ -1,5 +1,7 @@
 package com.mcs.be.course.service.impl;
 
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +15,28 @@ public class CustomerServiceImpl implements CustomerService {
 
 	@Autowired
 	private CustomerDao customerDao;
-	
+
 	@Override
 	public Customer getCustomerById(String id) throws ElementNotFound {
-		Customer customer = customerDao.findOne(id);
+		Customer customer = findCustomerById(id);
 		if (customer == null) {
 			throw new ElementNotFound("Couldn't find a user named " + id);
 		}
 		return customer;
 	}
 
+	@Override
+	public Customer findCustomerById(String id) {
+		return customerDao.findOne(id);
+	}
+
+	@Override
+	public Customer save(Customer customer) {
+		Objects.requireNonNull(customer.getId(), "the id cannot be null");
+		Objects.requireNonNull(customer.getFirstName(), "the first name cannot be null");
+		Objects.requireNonNull(customer.getLastName(), "the last name cannot be null");
+		Objects.requireNonNull(customer.getPassword(), "the password cannot be null");
+
+		return customerDao.save(customer);
+	}
 }

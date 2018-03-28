@@ -5,4 +5,8 @@ import com.mcs.be.course.model.Customer;
 
 public interface CustomerService {
 	Customer getCustomerById(String id) throws ElementNotFound;
+
+	Customer findCustomerById(String id);
+
+	Customer save(Customer customer);
 }

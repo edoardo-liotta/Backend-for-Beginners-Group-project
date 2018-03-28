@@ -2,6 +2,7 @@ package com.mcs.be.course.facade.impl;
 
 import org.h2.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
 import com.mcs.be.course.dto.CustomerDto;
@@ -28,6 +29,25 @@ public class CustomerFacadeImpl implements CustomerFacade {
 			throw new IllegalArgumentException("Wrong password");
 		}
 		return mapperFacade.map(customerById, CustomerDto.class);
+	}
+
+	@Override
+	public CustomerDto register(CustomerDto customerDto) {
+		String id = customerDto.getId();
+		Customer existingCustomer = customerService.findCustomerById(id);
+		if (existingCustomer != null) {
+			throw new DuplicateKeyException("Customer with id " + id + " is already existing");
+		}
+		
+		Customer newCustomer = mapperFacade.map(customerDto, Customer.class);
+		Customer savedCustomer;
+		try {
+			savedCustomer = customerService.save(newCustomer);
+		} catch (NullPointerException e) {
+			throw new IllegalArgumentException(e.getMessage(), e);
+		}
+		
+		return mapperFacade.map(savedCustomer, CustomerDto.class);
 	}
 
 }
